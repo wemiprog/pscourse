@@ -3,5 +3,7 @@
 ## Ausführen
  - Go installieren
  - Ausführen:
-```go mod tidy
-go run .```
+```
+go mod tidy
+go run .
+```
