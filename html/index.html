@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" data-name="vs/editor/editor.main"
+        href="./node_modules/monaco-editor/min/vs/editor/editor.main.css" />
+    <link rel="stylesheet" href="./assets/tailwind.min.css">
+    <link rel="stylesheet" href="./assets/all.min.css">
+
+    <script src="./assets/cash.min.js"></script>
+    <script src="./assets/superagent.min.js"></script>
+    <script src="./assets/showdown.min.js"></script>
+    <script src="./app.js"></script>
+</head>
+
+<body>
+    <div class="h-screen overflow-hidden">
+        <header class="bg-indigo-600 w-screen py-4 pl-6 h-16">
+            <span class="text-2xl tracking-wide text-white">Interaktiver PowerShell-Kurs</span>
+        </header>
+        <div style="height: calc(100% - 4rem);">
+            <div class="grid grid-cols-2 h-full">
+
+                <div id="explanation" class="p-4 border-r-2 border-gray-700"></div>
+
+                <div class="grid grid-rows-2 gap-0">
+                    <div id="monaco" class="h-full w-full row-span-2"></div>
+
+                    <div class="bg-white row-span-4 h-80 py-2 px-4 flex flex-col">
+
+                        <div class="flex flex-row flex-none">
+                            <button class="bg-green-500 rounded-md py-2 px-4 text-white shadow-md flex-none" id="run_code" onclick="handleCodeRun()">
+                                <i class="fas fa-play"></i>
+                                <span>&nbsp;RUN</span>
+                            </button>
+                            <div class="flex-grow py-2 px-4 text-center">
+                                <i class="fas fa-info-circle" id="statusicon_code"></i>
+                                <span>&nbsp;<span id="statusmessage_code">Noch nicht ausgeführt</span></span>
+                            </div>
+                            <button class="bg-red-500 rounded-md py-2 px-4 text-white shadow-md flex-none">
+                                <i class="far fa-trash-alt"></i>
+                                <span>&nbsp;RESET</span>
+                            </button>
+                        </div>
+
+                        <div class="flex-grow">erklärungen</div>
+
+                        <div id="code_output" class="w-full h-36 flex-none m-0"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--<div id="monaco" style="width: 800px; height: 600px; border: 1px solid grey"></div>
+    <div id="hallo"></div-->
+
+
+
+
+
+    <!--------------IMPORTS----------------------------------------------------------------->
+    <script>
+        var require = { paths: { vs: './node_modules/monaco-editor/min/vs' } };
+    </script>
+    <script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+    <script src="./node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+    <script src="./node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
+    <script>
+        var editor = monaco.editor.create(document.getElementById("monaco"), {
+            value: "# Versuchsfenster\n... loading ...",
+            language: "powershell",
+
+            lineNumbers: "on",
+            roundedSelection: false,
+            scrollBeyondLastLine: false,
+            readOnly: false,
+            theme: "vs-dark",
+        });
+        editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => handleCodeRun())
+        var codeoutput = monaco.editor.create(document.getElementById("code_output"), {
+            value: "Pass den Code wie gefordert an und führe ihn anschliessend aus",
+            language: "powershell",
+            readOnly: true,
+            theme: "vs-dark",
+            name: "Moin"
+        });
+    </script>
+</body>
+
+</html>

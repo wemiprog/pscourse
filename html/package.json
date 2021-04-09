@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "monaco-editor": "^0.23.0",
+    "showdown": "^1.9.1",
+    "tailwindcss": "^2.1.1"
+  }
+}
