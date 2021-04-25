@@ -1,11 +1,22 @@
 package main
 
 import (
+	"embed"
+	"io/fs"
+	"net/http"
 	"pscourse/handler"
 	"pscourse/utils"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
 )
+
+/*var (
+	Sep string
+)*/
+
+//go:embed html
+var embedHtml embed.FS
 
 func main() {
 	app := fiber.New()
@@ -14,7 +25,12 @@ func main() {
 		return c.SendString("Hello, World 👋!")
 	}) */
 
-	app.Static("/", "./html")
+	/*if runtime.GOOS == "windows" {
+		Sep = "\\"
+	} else {
+		Sep = "/"
+	}*/
+	//app.Static("/", "./html")
 
 	app.Get("/lessons", handler.LessonListHandler)
 
@@ -41,6 +57,12 @@ func main() {
 		// => "{"Name": "Grame", "Age": 20}"
 
 	})
+
+	htmlSubFS, _ := fs.Sub(embedHtml, "html")
+	app.Use("/", filesystem.New(filesystem.Config{
+		Root:   http.FS(htmlSubFS),
+		Browse: true,
+	}))
 
 	app.Listen(":3000")
 }
